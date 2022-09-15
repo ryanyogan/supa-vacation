@@ -8,6 +8,7 @@ import {
   UserIcon,
 } from "@heroicons/react/outline";
 import { ChevronDownIcon } from "@heroicons/react/solid";
+import { signOut, useSession } from "next-auth/react";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
@@ -35,17 +36,17 @@ const menuItems = [
   {
     label: "Logout",
     icon: LogoutIcon,
-    onClick: () => null,
+    onClick: signOut,
   },
 ];
 
 const Layout = ({ children = null }) => {
   const router = useRouter();
-
   const [showModal, setShowModal] = useState(false);
 
-  const user = null;
-  const isLoadingUser = false;
+  const { data: session, status } = useSession();
+  const user = session?.user;
+  const isLoadingUser = status === "loading";
 
   const openModal = () => setShowModal(true);
   const closeModal = () => setShowModal(false);
