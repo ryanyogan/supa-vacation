@@ -1,6 +1,7 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { MailOpenIcon, SparklesIcon, XIcon } from "@heroicons/react/outline";
 import { Form, Formik } from "formik";
+import { signIn } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import PropTypes from "prop-types";
@@ -68,7 +69,28 @@ const AuthModal = ({ show = false, onClose = () => null }) => {
   const [showSignIn, setShowSignIn] = useState(false);
 
   const signInWithEmail = async ({ email }) => {
-    // TODO: Perform email auth
+    let toastId;
+    try {
+      toastId = toast.loading("Loading...");
+      setDisabled(true);
+
+      const { error } = await signIn("email", {
+        redirect: false,
+        callbackUrl: window.location.href,
+        email,
+      });
+
+      if (error) {
+        throw new Error(error);
+      }
+
+      setConfirm(true);
+      toast.dismiss(toastId);
+    } catch (_err) {
+      toast.error("Unable to sign in", { id: toastId });
+    } finally {
+      setDisabled(false);
+    }
   };
 
   const signInWithGoogle = () => {
