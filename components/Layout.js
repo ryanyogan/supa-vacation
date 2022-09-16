@@ -70,7 +70,7 @@ const Layout = ({ children = null }) => {
                 <a className="flex items-center space-x-1">
                   <SparklesIcon className="shrink-0 w-8 h-8 text-rose-500" />
                   <span className="text-xl font-semibold tracking-wide">
-                    Stupid<span className="text-rose-600">Vacation</span>
+                    Nug<span className="text-rose-600">Love</span>
                   </span>
                 </a>
               </Link>
